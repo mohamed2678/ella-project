@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <UpperBanner />
+    <TheFeatures />
+    <TopOffers />
+    <FlashDeals :products="FlashDeals" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import UpperBanner from "@/components/hoome_page/UpperBanner.vue";
+import TheFeatures from "@/components/hoome_page/TheFeatures.vue";
+import TopOffers from "@/components/hoome_page/TopOffers.vue";
+import FlashDeals from "@/components/hoome_page/ProductsSwipers.vue";
+import { productsModule } from "@/stores/product";
+import { mapActions, mapState } from "pinia";
 export default {
   name: "HomeView",
   components: {
-    HelloWorld,
+    UpperBanner,
+    TheFeatures,
+    TopOffers,
+    FlashDeals,
+  },
+  computed: {
+    ...mapState(productsModule, ["FlashDeals"]),
+  },
+  methods: {
+    ...mapActions(productsModule, ["getProduct"]),
+  },
+  //get data in console
+  async mounted() {
+    await this.getProduct();
+    console.log(this.FlashDeals);
   },
 };
 </script>
