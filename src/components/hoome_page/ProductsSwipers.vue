@@ -3,16 +3,32 @@
     <div
       class="Flash-Deals mb-10 px-5 d-flex align-center justify-space-between"
     >
-      <h2 style="font-weight: 900; font-size: 30px" class="text-red">
-        Flash Deals
+      <h2
+        style="font-weight: 900; font-size: 30px"
+        :class="[`text-${titileColor}`]"
+      >
+        {{ title }}
       </h2>
       <a href="#">Shop All</a>
     </div>
+    <v-container fluid v-if="!products.length">
+      <v-row>
+        <v-col class="pt-14" cols="12">
+          <v-row>
+            <v-col cols="3" v-for="num in 4" :key="num">
+              <v-skeleton-loader
+                type="image, article, button"
+              ></v-skeleton-loader>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
     <Swiper
       :pagination="{ el: '.swiper-pagination', clickable: true }"
       :modules="modules"
       :slides-per-view="4"
-      :space-between="40"
+      :space-between="35"
       class="pb-9"
       :navigation="{ prevIcon: '.swiper-prev', nextIcon: '.swiper-next' }"
       :autoplay="{ delay: 3000 }"
@@ -25,27 +41,28 @@
                 :src="
                   showenItem[item.title]
                     ? showenItem[item.title]
-                    : item.thumbnail
+                    : item.thumbnail || item.image
                 "
+                loading="lazy"
                 class="w-100"
-                :style="`height: 100%; transition: 0.5s all ease-in-out; scale: ${
-                  isHovering ? 1.15 : 1
-                }; cursor: pointer;`"
+                :style="`height: 100%;
+              transition: 0.5s all ease-in-out; scale: ${
+                isHovering ? 1.15 : 1
+              }; cursor: pointer;`"
                 :alt="item.title"
                 v-bind="props"
               />
             </div>
           </v-hover>
-          <v-card-text class="pl-0">
-            ({{ item.title }})
+          <v-card-text class="pl-0" style="height: 40px">
             {{
-              item.description.split(" ").length <= 8
-                ? item.description
-                : item.description.split(" ").slice(0, 8).join(" ") + "..."
+              `(${item.title}) ${item.description}`.length <= 57
+                ? `(${item.title}) ${item.description}`
+                : `(${item.title}) ${item.description}`.substring(0, 57) + "..."
             }}
           </v-card-text>
           <v-rating
-            v-model="item.rating.rate"
+            v-model="item.rating"
             half-increments
             color="yellow-darken-3 pm-1"
             size="x-small"
@@ -53,15 +70,25 @@
             readonly
           ></v-rating>
           <v-card-text class="pl-0 pt-0">
-            <del>${{ item.price }}</del> From
+            <del
+              v-if="
+                item.discountPercentage !== null &&
+                item.discountPercentage !== undefined
+              "
+            >
+              ${{ item.price }}
+            </del>
             <span class="text-red font-weight-bold">
               ${{
-                (
-                  item.price -
-                  item.price * (item.discountPercentage / 100)
-                ).toFixed(1)
-              }}</span
-            >
+                item.discountPercentage !== null &&
+                item.discountPercentage !== undefined
+                  ? (
+                      item.price -
+                      item.price * (item.discountPercentage / 100)
+                    ).toFixed(1)
+                  : item.price
+              }}
+            </span>
           </v-card-text>
           <v-btn-toggle v-model="showenItem[item.title]">
             <v-btn
@@ -90,8 +117,6 @@
           </div>
         </v-card>
       </swiper-slide>
-      <div class="swiper-prev"></div>
-      <div class="swiper-next"></div>
       <div class="swiper-pagination"></div>
     </Swiper>
   </div>
@@ -105,6 +130,12 @@ export default {
     products: {
       type: Array,
       required: true,
+    },
+    title: {
+      type: String,
+    },
+    titileColor: {
+      type: String,
     },
   },
   components: {
@@ -142,6 +173,9 @@ export default {
   .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
+  }
+  .swiper {
+    margin-left: 15px !important;
   }
 }
 </style>

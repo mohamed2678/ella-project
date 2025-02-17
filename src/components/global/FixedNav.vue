@@ -38,7 +38,7 @@
             >
               <v-badge
                 location="right top"
-                content="2"
+                content="3"
                 color="red"
                 offsetX="-14"
               ></v-badge>

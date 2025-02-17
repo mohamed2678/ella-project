@@ -94,7 +94,7 @@
               >
                 <v-badge
                   location="right top"
-                  content="2"
+                  content="3"
                   color="#205dc2"
                   offsetX="-14"
                 ></v-badge>
