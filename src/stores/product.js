@@ -10,6 +10,38 @@ export const productsModule = defineStore("productsModule", {
     mens: [],
     womens: [],
     jewelery: [],
+    productsCategory: [],
+    singleProduct: "",
+    categories: [
+      {
+        title: "Mens Shoes",
+        route: "mens-shoes",
+      },
+      {
+        title: "laptops",
+        route: "laptops",
+      },
+      {
+        title: "Smart Phones",
+        route: "smartphones",
+      },
+      {
+        title: "jewellery",
+        route: "womens-jewellery",
+      },
+      {
+        title: "fragrances",
+        route: "fragrances",
+      },
+      {
+        title: "motorcycle",
+        route: "motorcycle",
+      },
+      {
+        title: "Dresses",
+        route: "womens-dresses",
+      },
+    ],
   }),
   actions: {
     async getProduct() {
@@ -43,7 +75,6 @@ export const productsModule = defineStore("productsModule", {
         .get("https://fakestoreapi.com/products/category/electronics")
         .then((res) => {
           this.TVs = res.data;
-          console.log((this.TVs = res.data));
         })
         .catch((err) => console.log(err));
     },
@@ -52,7 +83,6 @@ export const productsModule = defineStore("productsModule", {
         .get("https://fakestoreapi.com/products/category/men's clothing")
         .then((res) => {
           this.mens = res.data;
-          console.log((this.mens = res.data));
         })
         .catch((err) => console.log(err));
     },
@@ -61,7 +91,6 @@ export const productsModule = defineStore("productsModule", {
         .get("https://fakestoreapi.com/products/category/women's clothing")
         .then((res) => {
           this.womens = res.data;
-          console.log((this.womens = res.data));
         })
         .catch((err) => console.log(err));
     },
@@ -70,9 +99,18 @@ export const productsModule = defineStore("productsModule", {
         .get("https://fakestoreapi.com/products/category/jewelery")
         .then((res) => {
           this.jewelery = res.data;
-          console.log((this.jewelery = res.data));
         })
         .catch((err) => console.log(err));
+    },
+    async getProductByCategory(category) {
+      await axios
+        .get(`https://dummyjson.com/products/category/${category}`)
+        .then((res) => (this.productsCategory = res.data));
+    },
+    async getSingleProduct(productId) {
+      await axios
+        .get(`https://dummyjson.com/products/${productId}`)
+        .then((res) => (this.singleProduct = res.data));
     },
   },
 });

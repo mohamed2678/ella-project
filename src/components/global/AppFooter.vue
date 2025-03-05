@@ -1,6 +1,11 @@
 <template>
   <div class="app-footer">
-    <v-footer :app="true" color="gray-lighten-4" absolute class="pt-14">
+    <v-footer
+      :app="true"
+      style="background-color: #f1f1f1"
+      absolute
+      class="pt-14"
+    >
       <v-container fluid class="px-0">
         <v-row>
           <v-col cols="3">
@@ -10,26 +15,21 @@
                 style="font-size: 14px; font-weight: 900"
                 >SHOP</v-card-title
               >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Electonics</v-card-text
+              <v-card-text
+                class="pt-0 pb-3 px-0"
+                style="color: rgb(71, 71, 71)"
+                v-for="category in categories"
+                :key="category.title"
               >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Computers & Laps</v-card-text
-              >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >SmartPhones & Tablets</v-card-text
-              >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Cameras</v-card-text
-              >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Video Game & systems</v-card-text
-              >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Home & furniture</v-card-text
-              >
-              <v-card-text class="pt-0 pb-3 px-0" style="color: rgb(71, 71, 71)"
-                >Weekly Spechial</v-card-text
+                <router-link
+                  class="pt-0 pb-3 px-0"
+                  :to="{
+                    name: 'products_category',
+                    params: { category: category.route, title: category.title },
+                  }"
+                  style="color: rgb(71, 71, 71); text-decoration: none"
+                  >{{ category.title }}</router-link
+                ></v-card-text
               >
             </v-card>
           </v-col>
@@ -95,7 +95,12 @@
           </v-col>
           <v-col cols="3" class="pt-3">
             <v-card elevation="0" color="transparents">
-              <img src="@/assets/images/footer-logo.webp" alt="footer logo" />
+              <img
+                src="@/assets/images/footer-logo.webp"
+                alt="footer logo"
+                @click="$router.push({ name: 'home' })"
+                style="cursor: pointer"
+              />
               <v-card-text class="px-0 d-flex justify-center" style="gap: 16px">
                 <span class="pt-1">
                   <svg
@@ -278,7 +283,12 @@
 </template>
 
 <script>
+import { productsModule } from "@/stores/product";
+import { mapState } from "pinia";
 export default {
+  computed: {
+    ...mapState(productsModule, ["categories"]),
+  },
   data: () => ({
     name: "Galal",
     svgs: [
@@ -294,7 +304,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .social {
   span {
     width: 30px;
@@ -304,5 +314,11 @@ export default {
     justify-content: center;
     border-radius: 50%;
   }
+}
+.v-card {
+  background-color: #f1f1f1 !important;
+}
+.img-parent {
+  background-color: #f1f1f1 !important;
 }
 </style>

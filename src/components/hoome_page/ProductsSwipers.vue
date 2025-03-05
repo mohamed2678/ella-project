@@ -5,7 +5,7 @@
     >
       <h2
         style="font-weight: 900; font-size: 30px"
-        :class="[`text-${titileColor}`]"
+        :class="[`text-${titleColor}`]"
       >
         {{ title }}
       </h2>
@@ -24,101 +24,125 @@
         </v-col>
       </v-row>
     </v-container>
-    <Swiper
-      :pagination="{ el: '.swiper-pagination', clickable: true }"
-      :modules="modules"
-      :slides-per-view="4"
-      :space-between="35"
-      class="pb-9"
-      :navigation="{ prevIcon: '.swiper-prev', nextIcon: '.swiper-next' }"
-      :autoplay="{ delay: 3000 }"
-    >
-      <swiper-slide v-for="item in products" :key="item.id">
-        <v-card elevation="0" class="pm-5">
-          <v-hover v-slot="{ isHovering, props }">
-            <div class="img-parent" style="height: 300px; overflow: hidden">
-              <img
-                :src="
-                  showenItem[item.title]
-                    ? showenItem[item.title]
-                    : item.thumbnail || item.image
-                "
-                loading="lazy"
-                class="w-100"
-                :style="`height: 100%;
-              transition: 0.5s all ease-in-out; scale: ${
-                isHovering ? 1.15 : 1
-              }; cursor: pointer;`"
-                :alt="item.title"
-                v-bind="props"
-              />
-            </div>
-          </v-hover>
-          <v-card-text class="pl-0" style="height: 40px">
-            {{
-              `(${item.title}) ${item.description}`.length <= 57
-                ? `(${item.title}) ${item.description}`
-                : `(${item.title}) ${item.description}`.substring(0, 57) + "..."
-            }}
-          </v-card-text>
-          <v-rating
-            v-model="item.rating"
-            half-increments
-            color="yellow-darken-3 pm-1"
-            size="x-small"
-            density="compact"
-            readonly
-          ></v-rating>
-          <v-card-text class="pl-0 pt-0">
-            <del
-              v-if="
-                item.discountPercentage !== null &&
-                item.discountPercentage !== undefined
-              "
-            >
-              ${{ item.price }}
-            </del>
-            <span class="text-red font-weight-bold">
-              ${{
-                item.discountPercentage !== null &&
-                item.discountPercentage !== undefined
-                  ? (
-                      item.price -
-                      item.price * (item.discountPercentage / 100)
-                    ).toFixed(1)
-                  : item.price
+    <v-container fluid v-else>
+      <Swiper
+        :pagination="{ el: '.swiper-pagination', clickable: true }"
+        :modules="modules"
+        :slides-per-view="4"
+        :space-between="35"
+        class="pb-9"
+        :navigation="{ prevIcon: '.swiper-prev', nextIcon: '.swiper-next' }"
+        :autoplay="{ delay: 3000 }"
+      >
+        <swiper-slide v-for="item in products" :key="item.id">
+          <v-card elevation="0" class="pm-5">
+            <v-hover v-slot="{ isHovering, props }">
+              <div class="img-parent position-relative" style="height: 300px">
+                <img
+                  :src="
+                    showenItem[item.title]
+                      ? showenItem[item.title]
+                      : item.thumbnail || item.image
+                  "
+                  loading="lazy"
+                  class="w-100"
+                  :style="`height: 100%;
+                transition: 0.5s all ease-in-out; scale: ${
+                  isHovering ? 1.15 : 1
+                }; cursor: pointer;`"
+                  :alt="item.title"
+                  v-bind="props"
+                />
+                <v-btn
+                  density="compact"
+                  width="60"
+                  height="35"
+                  variant="outlined"
+                  class="bg-white quick-view-btn"
+                  style="
+                    text-transform: none;
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    border-radius: 30px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: 0.3s;
+                    opacity: 0;
+                  "
+                  @click="openQuickView(item)"
+                >
+                  Quick View
+                </v-btn>
+              </div>
+            </v-hover>
+            <v-card-text class="pl-0" style="height: 40px">
+              {{
+                `(${item.title}) ${item.description}`.length <= 57
+                  ? `(${item.title}) ${item.description}`
+                  : `(${item.title}) ${item.description}`.substring(0, 57) +
+                    "..."
               }}
-            </span>
-          </v-card-text>
-          <v-btn-toggle v-model="showenItem[item.title]">
-            <v-btn
-              v-for="(pic, i) in item.images"
-              :value="pic"
-              :key="i"
+            </v-card-text>
+            <v-rating
+              :model-value="item.rating.rate"
+              half-increments
+              color="yellow-darken-3 pm-1"
               size="x-small"
-              style="border-radius: 50%"
-            >
-              <img
-                :src="pic"
-                width="40"
-                height="40"
+              density="compact"
+              readonly
+            ></v-rating>
+            <v-card-text class="pl-0 pt-0">
+              <del v-if="item.discountPercentage"> ${{ item.price }} </del>
+              <span class="text-red font-weight-bold">
+                ${{
+                  item.discountPercentage
+                    ? (
+                        item.price -
+                        item.price * (item.discountPercentage / 100)
+                      ).toFixed(1)
+                    : item.price
+                }}
+              </span>
+            </v-card-text>
+            <v-btn-toggle v-model="showenItem[item.title]">
+              <v-btn
+                v-for="(pic, i) in item.images"
+                :value="pic"
+                :key="i"
+                size="x-small"
                 style="border-radius: 50%"
-                alt="pic.title"
-              />
-            </v-btn>
-          </v-btn-toggle>
-          <div class="mt-5">
-            <v-btn
-              class="py-3 px-12"
-              style="text-transform: none; border-radius: 30px"
-              variant="outlined"
-              >Choose Options</v-btn
-            >
-          </div>
-        </v-card>
-      </swiper-slide>
-      <div class="swiper-pagination"></div>
-    </Swiper>
+              >
+                <img
+                  :src="pic"
+                  width="40"
+                  height="40"
+                  style="border-radius: 50%"
+                  alt="pic.title"
+                />
+              </v-btn>
+            </v-btn-toggle>
+            <div class="mt-5">
+              <v-btn
+                class="py-3 px-12"
+                style="text-transform: none; border-radius: 30px"
+                variant="outlined"
+                @click="
+                  $router.push({
+                    name: 'product_details',
+                    params: { productId: item.id },
+                  })
+                "
+              >
+                Choose Options
+              </v-btn>
+            </div>
+          </v-card>
+        </swiper-slide>
+        <div class="swiper-pagination"></div>
+      </Swiper>
+    </v-container>
   </div>
 </template>
 
@@ -126,6 +150,12 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import { Pagination, Navigation, Autoplay } from "swiper";
 export default {
+  inject: ["Emitter"],
+  methods: {
+    openQuickView(product) {
+      this.Emitter.emit("openQuickView", product);
+    },
+  },
   props: {
     products: {
       type: Array,
@@ -134,7 +164,7 @@ export default {
     title: {
       type: String,
     },
-    titileColor: {
+    titleColor: {
       type: String,
     },
   },
@@ -176,6 +206,12 @@ export default {
   }
   .swiper {
     margin-left: 15px !important;
+  }
+}
+.img-parent:hover {
+  .quick-view-btn {
+    opacity: 1 !important;
+    border: none;
   }
 }
 </style>

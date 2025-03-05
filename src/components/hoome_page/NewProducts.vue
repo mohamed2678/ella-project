@@ -34,7 +34,7 @@
               <v-card elevation="0" class="pm-5">
                 <v-hover v-slot="{ isHovering, props }">
                   <div
-                    class="img-parent"
+                    class="img-parent position-relative"
                     style="height: 250px; overflow: hidden"
                   >
                     <img
@@ -52,6 +52,28 @@
                       :alt="item.title"
                       v-bind="props"
                     />
+                    <v-btn
+                      density="compact"
+                      width="60"
+                      height="35"
+                      variant="outlined"
+                      class="bg-white quick-view-btn"
+                      style="
+                        text-transform: none;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        border-radius: 30px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        transition: 0.3s;
+                        opacity: 0;
+                      "
+                      @click="openQuickView(item)"
+                    >
+                      Quick View
+                    </v-btn>
                   </div>
                 </v-hover>
                 <v-card-text class="pl-0" style="height: 40px">
@@ -104,6 +126,12 @@
                     class="py-3 px-12"
                     style="text-transform: none; border-radius: 30px"
                     variant="outlined"
+                    @click="
+                      $router.push({
+                        name: 'product_details',
+                        params: { productId: item.id },
+                      })
+                    "
                     >Choose Options</v-btn
                   >
                 </div>
@@ -127,8 +155,14 @@
 <script>
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import { Pagination, Autoplay } from "swiper";
-// import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
+import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
 export default {
+  inject: ["Emitter"],
+  methods: {
+    openQuickView(product) {
+      this.Emitter.emit("openQuickView", product);
+    },
+  },
   props: {
     products: {
       type: Array,
@@ -138,7 +172,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    // VSkeletonLoader,
+    VSkeletonLoader,
   },
   data: () => ({
     showenItem: {},

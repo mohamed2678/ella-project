@@ -18,9 +18,6 @@ import FixedNav from "./FixedNav.vue";
 import AppFooter from "./AppFooter.vue";
 import CartDrawer from "./CartDrawer.vue";
 export default {
-  data: () => ({
-    drawer: true,
-  }),
   components: {
     AppNav,
     FixedNav,
