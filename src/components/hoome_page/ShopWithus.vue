@@ -5,8 +5,11 @@
     </div>
     <v-container fluid>
       <v-row>
-        <v-col cols="3" class="text-center text-white">
-          <v-card elevation="0">
+        <v-col cols="12" sm="6" md="4" lg="3" class="text-center text-white">
+          <v-card
+            elevation="0 "
+            style="background-color: transparent; color: white"
+          >
             <div class="img-parent">
               <img src="@/assets/images/free-shipping.png" alt="" />
             </div>
@@ -28,8 +31,11 @@
             </div>
           </v-card>
         </v-col>
-        <v-col cols="3" class="text-center text-white">
-          <v-card elevation="0">
+        <v-col cols="12" sm="6" md="4" lg="3" class="text-center text-white">
+          <v-card
+            elevation="0"
+            style="background-color: transparent; color: white"
+          >
             <div class="img-parent">
               <img src="@/assets/images/weekly-flash-sales.png" alt="" />
             </div>
@@ -51,8 +57,11 @@
             </div>
           </v-card>
         </v-col>
-        <v-col cols="3" class="text-center text-white">
-          <v-card elevation="0">
+        <v-col cols="12" sm="6" md="4" lg="3" class="text-center text-white">
+          <v-card
+            elevation="0"
+            style="background-color: transparent; color: white"
+          >
             <div class="img-parent">
               <img src="@/assets/images/discount.png" alt="" />
             </div>
@@ -74,8 +83,17 @@
             </div>
           </v-card>
         </v-col>
-        <v-col cols="3" class="text-center text-white px-1">
-          <v-card elevation="0">
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          class="text-center text-white px-1"
+        >
+          <v-card
+            elevation="0"
+            style="background-color: transparent; color: white"
+          >
             <div class="img-parent">
               <img src="@/assets/images/cash-back.png" alt="" />
             </div>

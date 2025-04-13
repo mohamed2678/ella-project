@@ -9,7 +9,18 @@
       >
         {{ title }}
       </h2>
-      <a href="#">Shop All</a>
+      <router-link
+        class="text-black"
+        style="font-size: 14px"
+        :to="{
+          name: 'products_category',
+          params: {
+            title: categories[index].title,
+            category: categories[index].route,
+          },
+        }"
+        >Shop All</router-link
+      >
     </div>
     <v-container fluid v-if="!products.length">
       <v-row>
@@ -32,9 +43,15 @@
         :space-between="35"
         class="pb-9"
         :navigation="{ prevIcon: '.swiper-prev', nextIcon: '.swiper-next' }"
-        :autoplay="{ delay: 3000 }"
+        :autoplay="{
+          delay: 3000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false,
+        }"
+        :loop="true"
+        :breakpoints="breakpoints"
       >
-        <swiper-slide v-for="item in products" :key="item.id">
+        <SwiperSlide v-for="item in products" :key="item.id">
           <v-card elevation="0" class="pm-5">
             <v-hover v-slot="{ isHovering, props }">
               <div class="img-parent position-relative" style="height: 300px">
@@ -86,7 +103,7 @@
               }}
             </v-card-text>
             <v-rating
-              :model-value="item.rating.rate"
+              :model-value="item.rating"
               half-increments
               color="yellow-darken-3 pm-1"
               size="x-small"
@@ -106,7 +123,7 @@
                 }}
               </span>
             </v-card-text>
-            <v-btn-toggle v-model="showenItem[item.title]">
+            <v-btn-toggle v-model="showenItem[item.title]" mandatory>
               <v-btn
                 v-for="(pic, i) in item.images"
                 :value="pic"
@@ -139,7 +156,7 @@
               </v-btn>
             </div>
           </v-card>
-        </swiper-slide>
+        </SwiperSlide>
         <div class="swiper-pagination"></div>
       </Swiper>
     </v-container>
@@ -149,8 +166,13 @@
 <script>
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import { Pagination, Navigation, Autoplay } from "swiper";
+import { productsModule } from "@/stores/product";
+import { mapState } from "pinia";
 export default {
   inject: ["Emitter"],
+  computed: {
+    ...mapState(productsModule, ["categories"]),
+  },
   methods: {
     openQuickView(product) {
       this.Emitter.emit("openQuickView", product);
@@ -167,6 +189,9 @@ export default {
     titleColor: {
       type: String,
     },
+    index: {
+      type: Number,
+    },
   },
   components: {
     Swiper,
@@ -174,6 +199,20 @@ export default {
   },
   data: () => ({
     showenItem: {},
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      580: {
+        slidesPerView: 2,
+      },
+      767: {
+        slidesPerView: 3,
+      },
+      990: {
+        slidesPerView: 4,
+      },
+    },
   }),
   setup() {
     return {
@@ -212,6 +251,28 @@ export default {
   .quick-view-btn {
     opacity: 1 !important;
     border: none;
+  }
+}
+// media qourey
+@media (max-width: 580px) {
+  .product-swiper {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none;
+    }
+    .img-parent {
+      height: 200px !important;
+    }
+    .swiper-slide {
+      width: 100% !important;
+    }
+  }
+  .product-swiper button {
+    padding: 8px !important;
+    height: 30px !important;
+    margin-left: 0 !important;
+    border-radius: 30px !important;
+    border-color: rgb(99, 99, 99) !important;
   }
 }
 </style>

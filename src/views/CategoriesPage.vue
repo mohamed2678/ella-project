@@ -3,11 +3,12 @@
     <h1 class="text-center">{{ $route.params.title }}</h1>
     <v-container>
       <!-- Show loading spinner while fetching -->
-      <v-row v-if="loading" justify="center" class="mt-100">
+      <v-row v-if="loading" justify="center">
         <v-progress-circular
           indeterminate
           color="primary"
           size="50"
+          style="margin: 300px auto"
         ></v-progress-circular>
       </v-row>
       <v-row v-else>
@@ -87,6 +88,7 @@
               size="x-small"
               density="compact"
               readonly
+              class="my-2"
             ></v-rating>
             <v-card-text class="pl-0 pt-0">
               <del>${{ item.price }}</del> From
@@ -99,7 +101,7 @@
                 }}</span
               >
             </v-card-text>
-            <v-btn-toggle v-model="shownItem[item.title]">
+            <v-btn-toggle v-model="shownItem[item.title]" mandatory>
               <v-btn
                 v-for="(pic, i) in item.images"
                 :value="pic"
@@ -170,6 +172,10 @@ export default {
     },
   },
   async mounted() {
+    if (!this.$route.params.category) {
+      return this.$router.go(-1);
+    }
+    document.documentElement.scrollTo(0, 0);
     this.loading = true;
     await this.getProductByCategory(this.$route.params.category);
     this.loading = false;

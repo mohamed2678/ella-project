@@ -1,6 +1,12 @@
 <template>
   <div class="nav-bar">
-    <v-app-bar color="#02218f" class="pt-3" height="fit-content" absolute>
+    <v-app-bar
+      style="max-width: 100%"
+      color="#02218f"
+      class="pt-3"
+      height="fit-content"
+      absolute
+    >
       <v-container fluid>
         <v-row>
           <v-col cols="3">
@@ -92,11 +98,7 @@
                 </svg>
                 <span style="color: #ffb547" class="mt-1">Sign in</span>
               </div>
-              <div
-                class="cart d-flex flex-column align-center"
-                style="cursor: pointer"
-                @click="openCart"
-              >
+              <div class="cart d-flex flex-column align-center">
                 <v-badge
                   location="right top"
                   :content="cartItem.length"
@@ -107,7 +109,11 @@
                 <svg
                   viewBox="0 0 1024 1024"
                   xmlns="http://www.w3.org/2000/svg"
-                  style="width: 28px; fill: #ffb547"
+                  :style="`width: 28px; fill: #ffb547;
+                  cursor: pointer; pointer-events: ${
+                    $route.name == 'cart_page' ? 'none' : 'unset'
+                  }`"
+                  @click="openCart"
                 >
                   <path
                     class="path1"
@@ -177,7 +183,7 @@
               >
               <v-icon>mdi-chevron-down</v-icon>
               <v-menu activator="#language-btn">
-                <v-list v-model:selected="selectedLang">
+                <v-list v-model:selected="selectedLang" mandatory>
                   <v-list-item
                     v-for="lang in langs"
                     :key="lang.lang"

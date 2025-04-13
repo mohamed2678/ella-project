@@ -6,7 +6,20 @@
       <h2 style="font-weight: 900; font-size: 30px" class="text-red">
         New Products
       </h2>
-      <a href="#">Shop All</a>
+      <router-link
+        v-if="categories[index]"
+        class="text-black"
+        style="font-size: 14px"
+        :to="{
+          name: 'products_category',
+          params: {
+            title: categories[index].title,
+            category: categories[index].route,
+          },
+        }"
+      >
+        Shop All
+      </router-link>
     </div>
     <v-container fluid>
       <v-row v-if="!products.length">
@@ -20,15 +33,21 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="products.length">
-        <v-col cols="7" class="pt-15">
+      <v-row v-else>
+        <v-col cols="12" md="7" class="pt-15 order-1 order-md-0">
           <Swiper
             :pagination="{ el: '.swiper-pagination', clickable: true }"
             :modules="modules"
             :slides-per-view="3"
             :space-between="20"
             class="pb-9"
-            :autoplay="{ delay: 3000 }"
+            :autoplay="{
+              delay: 3000,
+              pauseOnMouseEnter: true,
+              disableOnInteraction: false,
+            }"
+            :loop="true"
+            :breakpoints="breakpoints"
           >
             <swiper-slide v-for="item in products" :key="item.id">
               <v-card elevation="0" class="pm-5">
@@ -104,7 +123,7 @@
                     }}</span
                   >
                 </v-card-text>
-                <v-btn-toggle v-model="showenItem[item.title]">
+                <v-btn-toggle v-model="showenItem[item.title]" mandatory>
                   <v-btn
                     v-for="(pic, i) in item.images"
                     :value="pic"
@@ -140,7 +159,7 @@
             <div class="swiper-pagination"></div>
           </Swiper>
         </v-col>
-        <v-col cols="5">
+        <v-col cols="12" md="5">
           <img
             src="@/assets/images/vr-banner.webp"
             alt="vr-banner-photo"
@@ -156,8 +175,13 @@
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import { Pagination, Autoplay } from "swiper";
 import { VSkeletonLoader } from "vuetify/lib/components/index.mjs";
+import { productsModule } from "@/stores/product";
+import { mapState } from "pinia";
 export default {
   inject: ["Emitter"],
+  computed: {
+    ...mapState(productsModule, ["categories"]),
+  },
   methods: {
     openQuickView(product) {
       this.Emitter.emit("openQuickView", product);
@@ -168,6 +192,9 @@ export default {
       type: Array,
       required: true,
     },
+    index: {
+      type: Number,
+    },
   },
   components: {
     Swiper,
@@ -176,6 +203,17 @@ export default {
   },
   data: () => ({
     showenItem: {},
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      580: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
   }),
   setup() {
     return {
@@ -189,5 +227,14 @@ export default {
 ::v-deep(.swiper-button-prev),
 ::v-deep(.swiper-button-next) {
   display: none !important;
+}
+@media (max-width: 580px) {
+  button {
+    padding: 8px !important;
+    height: 30px !important;
+    margin-left: 0 !important;
+    border-radius: 30px !important;
+    border-color: rgb(99, 99, 99) !important;
+  }
 }
 </style>

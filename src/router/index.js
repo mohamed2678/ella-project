@@ -17,6 +17,16 @@ const routes = [
     name: "product_details",
     component: () => import("@/views/ProductDetails.vue"),
   },
+  {
+    path: "/cart-page",
+    name: "cart_page",
+    component: () => import("@/views/CartPage.vue"),
+  },
+  {
+    path: "/checkout-page",
+    name: "checkout_page",
+    component: () => import("@/views/CheckOut.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -24,9 +34,9 @@ const router = createRouter({
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition; // الرجوع لموضع التمرير السابق عند الرجوع للخلف
+      return savedPosition;
     } else {
-      return { top: 0, behavior: "smooth" }; // تمرير الصفحة للأعلى عند التنقل
+      return { top: 0, behavior: "smooth" };
     }
   },
 });

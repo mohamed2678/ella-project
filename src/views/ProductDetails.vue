@@ -2,7 +2,7 @@
   <div class="product-details mt-16">
     <v-container fluid>
       <v-row>
-        <v-col cols="7">
+        <v-col cols="12" sm="7">
           <div class="parent-img">
             <v-img
               :src="tab ? tab : singleProduct.thumbnail"
@@ -10,7 +10,6 @@
               alt=""
               height="500"
               v-if="!loading"
-              lazy-src="path/to/placeholder.jpg"
             />
           </div>
           <v-skeleton-loader
@@ -24,16 +23,11 @@
               class="mx-10"
               :value="img"
             >
-              <v-img
-                :src="img"
-                width="100"
-                height="100"
-                lazy-src="path/to/placeholder.jpg"
-              />
+              <v-img :src="img" width="100" height="100" />
             </v-tab>
           </v-tabs>
         </v-col>
-        <v-col cols="5" class="pt-0 pl-6">
+        <v-col cols="12" sm="5" class="pt-0 pl-6">
           <v-skeleton-loader
             v-if="loading"
             type="article, article, article"
@@ -175,12 +169,15 @@ export default {
     },
   },
   watch: {
-    singleProduct(newVal) {
-      if (newVal.images && newVal.images.length > 0) {
-        this.tab = newVal.images[0];
-      } else {
-        this.tab = newVal.thumbnail;
-      }
+    singleProduct: {
+      handler(newVal) {
+        if (newVal.images && newVal.images.length > 0) {
+          this.tab = newVal.images[0];
+        } else {
+          this.tab = newVal.thumbnail;
+        }
+      },
+      immediate: true,
     },
   },
   beforeMount() {
@@ -280,5 +277,14 @@ export default {
   width: 75%;
   height: 45px;
   text-transform: capitalize;
+}
+@media (max-width: 580px) {
+  .product-details {
+    .v-card-actions {
+      button {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>

@@ -72,33 +72,33 @@ export const productsModule = defineStore("productsModule", {
     },
     async getTV() {
       await axios
-        .get("https://fakestoreapi.com/products/category/electronics")
+        .get("https://dummyjson.com/products/category/motorcycle")
         .then((res) => {
-          this.TVs = res.data;
+          this.TVs = res.data.products;
         })
         .catch((err) => console.log(err));
     },
     async getMan() {
       await axios
-        .get("https://fakestoreapi.com/products/category/men's clothing")
+        .get("https://dummyjson.com/products/category/mens-shoes")
         .then((res) => {
-          this.mens = res.data;
+          this.mens = res.data.products;
         })
         .catch((err) => console.log(err));
     },
     async getWomens() {
       await axios
-        .get("https://fakestoreapi.com/products/category/women's clothing")
+        .get("https://dummyjson.com/products/category/womens-dresses")
         .then((res) => {
-          this.womens = res.data;
+          this.womens = res.data.products;
         })
         .catch((err) => console.log(err));
     },
     async getJewelery() {
       await axios
-        .get("https://fakestoreapi.com/products/category/jewelery")
+        .get("https://dummyjson.com/products/category/womens-jewellery")
         .then((res) => {
-          this.jewelery = res.data;
+          this.jewelery = res.data.products;
         })
         .catch((err) => console.log(err));
     },

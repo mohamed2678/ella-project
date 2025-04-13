@@ -6,12 +6,17 @@
     <ProductsComponents
       :products="FlashDeals"
       title="Flash Deals"
-      titileColor="red"
+      titleColor="red"
+      :index="2"
     />
     <TopCategory />
     <NewProducts :products="Labtops" />
     <QualityFeatures />
-    <ProductsComponents :products="MobilProducts" title="Top Mobile Phones" />
+    <ProductsComponents
+      :index="2"
+      :products="MobilProducts"
+      title="Top Mobile Phones"
+    />
     <v-container fluid>
       <v-row class="py-10">
         <v-col cols="6">
@@ -30,7 +35,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <ProductsComponents :products="TVs" title="Top Television" />
+    <ProductsComponents :index="5" :products="TVs" title="motorcycle" />
     <v-container fluid>
       <v-row class="py-8">
         <v-col cols="12">
@@ -42,7 +47,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <ProductsComponents :products="mens" title="men's clothing" />
+    <ProductsComponents :index="0" :products="mens" title="Mens Shoes" />
     <v-container fluid>
       <v-row class="py-8">
         <v-col cols="12">
@@ -50,8 +55,12 @@
         </v-col>
       </v-row>
     </v-container>
-    <ProductsComponents :products="womens" title="women's clothing" />
-    <ProductsComponents :products="jewelery" title="jewelery" />
+    <ProductsComponents
+      :index="5"
+      :products="womens"
+      title="women's clothing"
+    />
+    <ProductsComponents :index="3" :products="jewelery" title="jewelery" />
     <ShopWithus />
   </div>
 </template>

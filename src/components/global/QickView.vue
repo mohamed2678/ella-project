@@ -9,20 +9,8 @@
       <v-card elevation="0" class="content_card py-0 px-1">
         <v-container fluid class="bg-white pt-10">
           <v-row>
-            <v-col cols="7">
-              <v-icon
-                style="
-                  position: absolute;
-                  top: 10px;
-                  right: 10px;
-                  font-size: 30px;
-                  color: #4caf50;
-                  cursor: pointer;
-                  z-index: 10;
-                "
-                @click="closeDialog"
-                >mdi-close</v-icon
-              >
+            <v-col cols="12" sm="7">
+              <v-icon class="close-icon" @click="closeDialog">mdi-close</v-icon>
               <div class="parent-img">
                 <v-img
                   :src="
@@ -62,7 +50,7 @@
               </v-tabs>
             </v-col>
 
-            <v-col cols="5" class="pt-0 pl-6">
+            <v-col cols="12" sm="5" class="pt-0 pl-6">
               <v-skeleton-loader
                 v-if="loading"
                 type="article"
@@ -302,5 +290,15 @@ export default {
   color: white;
   width: 75%;
   height: 45px;
+}
+@media (max-width: 580px) {
+  .v-tabs {
+    overflow-x: auto;
+    width: 100%;
+    padding: 0 5px !important;
+    .v-tab {
+      min-width: 100px;
+    }
+  }
 }
 </style>

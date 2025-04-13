@@ -8,7 +8,7 @@
     >
       <v-container fluid class="px-0">
         <v-row>
-          <v-col cols="3">
+          <v-col cols="12" sm="6" md="4" lg="3">
             <v-card elevation="0" color="transparents">
               <v-card-title
                 class="px-0"
@@ -33,7 +33,7 @@
               >
             </v-card>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="12" sm="6" md="4" lg="3">
             <v-card elevation="0" color="transparents">
               <v-card-title
                 class="px-0"
@@ -63,7 +63,7 @@
               >
             </v-card>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="12" sm="6" md="4" lg="3">
             <v-card elevation="0" color="transparents">
               <v-card-title
                 class="px-0"
@@ -93,7 +93,7 @@
               >
             </v-card>
           </v-col>
-          <v-col cols="3" class="pt-3">
+          <v-col cols="12" sm="6" md="4" lg="3" class="pt-3">
             <v-card elevation="0" color="transparents">
               <img
                 src="@/assets/images/footer-logo.webp"
@@ -251,7 +251,7 @@
               </span>
             </div>
           </v-col>
-          <v-col cols="12">
+          <v-col cols="12" sm="6" md="6" lg="12">
             <div
               class="img-parent text-center mt-11 mb-8"
               style="width: 40%; margin: auto"
@@ -265,13 +265,13 @@
           </v-col>
         </v-row>
         <v-row class="pt-7 bg-white">
-          <v-col cols="6">
+          <v-col cols="12" sm="6" md="6" lg="6">
             <p style="color: rgb(127, 127, 127); font-size: 14px">
               &copy; {{ new Date().getFullYear() }} {{ name }} Demo. All Right
               Reseverd. Powered By Shopify
             </p>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12" sm="6" md="6" lg="6">
             <div class="master-card d-flex justify-end" style="gap: 10px">
               <span v-for="(svg, i) in svgs" :key="i" v-html="svg"> </span>
             </div>
